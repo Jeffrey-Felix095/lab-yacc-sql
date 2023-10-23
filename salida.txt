@@ -1,0 +1,18 @@
+CREATE TABLE id1=Empleado parabre=( id2=nombre VARCHAR parabre=( entero=20 parcierr=)  coma=, id3=cédula INTEGER coma=, id4=salario DECIMAL parabre=( entero=2 parcierr=)  parcierr=)  puntcoma=;
+INSERT INTO id1=Empleado VALUES parabre=( cadena='Juan' coma=,entero=1045268154 coma=, ERROR=12aab  parcierr=)  puntcoma=;
+SELECT FROM id5=a puntcoma=;
+SELECT COUNT parabre=(  parcierr=)  FROM id6=tabla puntcoma=;
+SELECT id2=nombre coma=, MAX parabre=( id4=salario parcierr=)  FROM id1=Empleado puntcoma=;
+UPDATE SET id2=nombre asign== cadena='Carlos' FROM id1=Empleado WHERE id3=cédula asign== decimal=12.5 puntcoma=;
+SELECT  asterisco=* FROM id1=Empleado WHERE id4=salario menorq=< entero=2000000 ORDER BY id2=nombre ASC ERROR: .   puntcoma=;
+
+
+6 Identificadores
+id1=Empleado
+id2=nombre
+id3=cédula
+id4=salario
+id5=a
+id6=tabla
+
+2 Errores lexicos
