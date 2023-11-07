@@ -1,40 +1,12 @@
-
 /**=================== Definitions ===================**/
 %{
     #include <stdio.h>
     #include <ctype.h>
     #include <iostream>
-    #include <vector>
-    #include <string>
     #include "LAB02.tab.h"
-    
-    using namespace std;
-
-    vector<string> identifiers;
-
-    int num_errors = 0;
-
-    char* toUpper(char* str) {
-        for (int i = 0; str[i]; i++) {
-            str[i] = toupper(str[i]);
-        }
-        return str;
-    }
-
-    int search_id(string id) {
-        for (int i = 0; i < identifiers.size(); i++) {
-            if (identifiers.at(i) == id) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    void add_id(string id) {
-        identifiers.insert(identifiers.end(), id);
-    }
 %}
 
+%option noyywrap
 /** GRAMATICA **/
 
 /*----- COMANDOS -------*/
@@ -122,83 +94,7 @@ DECIMAL {INTEGER}?"\."{INTEGER}|{INTEGER}"\."{INTEGER}?   { yylval.integer_value
 /* Cadenas: entre comillas ’ (no son variables o indetificadores) */
 STRING \'[^\']*\'|\"[^\"]*\"                               { return STRING; }
 
-ERROR {INTEGER_ERROR}|{DECIMAL_ERROR}
+ERROR {INTEGER_ERROR}|{DECIMAL_ERROR}                      { return ERROR; }
 INTEGER_ERROR {INTEGER}{ALPHA}+({INTEGER}|{ALPHA})*
 DECIMAL_ERROR {INTEGER_ERROR}"\."{INTEGER}|{INTEGER}"\."{INTEGER_ERROR}|{INTEGER_ERROR}"\."{INTEGER_ERROR}
 %%
-\n|" "|\t {printf("%s", yytext);}
-
-{COMMAND}|{TYPE} {
-    printf("%s", toUpper(yytext));
-}
-
-{OP_ADD} {printf(" suma=%s ", yytext);}
-{OP_SUB} {printf(" resta=%s ", yytext);}
-{OP_DIV} {printf(" div=%s ", yytext);}
-{OP_EQ} {printf(" igual=%s ", yytext);}
-{OP_DIFF} {printf(" dife=%s ", yytext);}
-{OP_GT} {printf(" mayorq=%s ", yytext);}
-{OP_LT} {printf(" menorq=%s ", yytext);}
-{OP_GE} {printf(" mayoriq=%s ", yytext);}
-{OP_LE} {printf(" menoriq=%s ", yytext);}
-{OP_AND} {printf(" y=%s ", yytext);}
-{OP_OR} {printf(" o=%s ", yytext);}
-
-{PARAOPEN} {printf(" parabre=%s ", yytext);}
-{PARACLOSE} {printf(" parcierr=%s ", yytext);}
-{COMMAN} {printf(" coma=%s", yytext);}
-{SEMICOLON} {printf(" puntcoma=%s", yytext);}
-{ASIG} {printf(" asign=%s ", yytext);}
-
-{AST} {printf(" asterisco=%s", yytext);}
-
-{ERROR} {
-    printf("ERROR=%s ", yytext);
-    num_errors++;
-}
-
-{ID} {
-    int index = search_id(yytext);
-
-    if (index == -1) {
-        add_id(yytext);
-        index = search_id(yytext);
-    }
-    printf("id%d=%s", index + 1, yytext);
-}
-
-{STRING} {printf("cadena=%s", yytext);}
-
-{INTEGER} {printf("entero=%s" yytext);}
-{DECIMAL} {printf("decimal=%s", yytext);}
-
-
-. {
-    printf("ERROR: %s ", yytext);
-    num_errors++;
-}
-%%
-
-/**=================== CODE SECTION ===================**/
-
-int yywrap(){return 1;}
-
-int main( int argc, char **argv )
-    {
-    ++argv, --argc; /* skip over program name */
-    if ( argc > 0 )
-        yyin = fopen( argv[0], "r" );
-    else
-        yyin = stdin;
-
-    yylex();
-
-    printf("\n\n\n");
-    printf("%zu Identificadores\n", identifiers.size());
-
-    for (int i = 0; i < identifiers.size(); i++) {
-        printf("id%d=%s\n", i + 1, identifiers.at(i).c_str());
-    }
-
-    printf("\n%d Errores lexicos\n", num_errors);
-}

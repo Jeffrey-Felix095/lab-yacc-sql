@@ -1,9 +1,24 @@
 %{
-#include "LAB01.tab.h"
+#include <stdio.h>
+#include "LAB02.tab.h"
+#include <string>
+#include <vector>
 
+extern int yylex();
+extern int yylineno;
+
+int has_syntax_error = 0; // Variable para indicar si hay errores sintácticos
+int num_syntax_errors = 0;
+int num_lexical_errors = 0; // Variable para contar errores léxicos
+int num_identifiers = 0; // Variable para contar identificadores
+
+// Declaración de un vector para almacenar identificadores
+std::vector<std::string> identifiers;
 
 int yyerror(const char *s) {
     fprintf(stderr, "Error en la línea %d: %s\n", yylineno, s);
+    has_syntax_error = 1;
+    num_syntax_errors++; // Incrementa el contador de errores sintácticos
     return 1;  // Retorna un valor no cero para indicar un error
 }
 
@@ -15,10 +30,11 @@ int yyerror(const char *s) {
 %token INSERT DELETE UPDATE
 %token MAX MIN AVG COUNT
 %token INTO VALUES FROM SET ASC DESC
-%token TYPE_INTEGER TYPE_DECIMAL TYPE_VARCHAR ID 
+%token TYPE_INTEGER TYPE_DECIMAL TYPE_VARCHAR ID
 %token OP_ADD OP_SUB OP_DIV OP_EQ OP_DIFF OP_GT OP_LT OP_GE OP_LE OP_AND OP_OR
 %token PARAOPEN PARACLOSE COMMAN SEMICOLON ASIG AST
 %token INTEGER DECIMAL STRING
+%token ERROR
 
 %start program
 
@@ -28,9 +44,9 @@ program: statements
        ;
 
 statements: statement SEMICOLON
-          | error SEMICOLON
+          | error { has_syntax_error = 1; } SEMICOLON
           | statements statement SEMICOLON
-          | statements error SEMICOLON
+          | statements error { has_syntax_error = 1; } SEMICOLON
           ;
 
 statement: create_table
@@ -61,7 +77,7 @@ type: TYPE_DECIMAL
     | TYPE_INTEGER
     | TYPE_VARCHAR
     ;
-    
+
 values: value
       | values COMMAN value
       ;
@@ -127,5 +143,15 @@ ordering: ASC
         | DESC
         ;
 
-
 %%
+
+int main() {
+    yyparse(); // Iniciar el análisis sintáctico
+
+    // Imprimir la información recopilada
+    printf("%zu Identificadores\n", identifiers.size());
+    printf("%d Errores léxicos\n", num_lexical_errors);
+    printf("%d Errores sintácticos\n", num_syntax_errors); // Imprime el número de errores sintácticos
+
+    return 0;
+}
