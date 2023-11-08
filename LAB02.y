@@ -3,13 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "LAB02.tab.h"
-#include <string>
-#include <vector>
 
 extern int yylex();
 extern FILE * yyin;
 extern FILE * yyout;
-extern int yylineno;
 extern int linea;
 extern char *yytext;
 
@@ -19,14 +16,32 @@ int num_syntax_errors = 0;
 void yyerror(const char *s);
 %}
 
-%token TABLE CREATE DROP SELECT WHERE BY GROUP ORDER
-%token INSERT DELETE UPDATE MAX MIN AVG COUNT
+%token TABLE CREATE DROP 
+
+%token SELECT WHERE BY GROUP ORDER
+
+%token INSERT DELETE UPDATE 
+
+%token MAX MIN AVG COUNT
+
 %token INTO VALUES FROM SET ASC DESC
+
 %token TYPE_INTEGER TYPE_DECIMAL TYPE_VARCHAR
-%token PARAOPEN PARACLOSE COMMAN SEMICOLON ASIG AST
-%token ID INTEGER DECIMAL STRING ERROR
+
 %token OP_ADD OP_SUB OP_DIV OP_EQ OP_DIFF
 %token OP_GT OP_LT OP_GE OP_LE OP_AND OP_OR
+
+%token PARAOPEN PARACLOSE COMMAN SEMICOLON ASIG 
+
+%token AST
+
+%token DIGIT ACCENT ALPHA ID 
+
+%token INTEGER DECIMAL 
+
+%token STRING
+
+%token ERROR
 
 
 %start program

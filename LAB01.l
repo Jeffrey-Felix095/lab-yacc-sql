@@ -60,8 +60,7 @@ TYPE_VARCHAR [vV][aA][rR][cC][hH][aA][rR]
 - logicos: conjunción (AND) y disyunción (OR)
 */
 OP_ADD "+"                                           
-OP_SUB "-"                                      
-/*OP_MULT "*"*/
+OP_SUB "-"
 OP_DIV "/"                                            
 OP_EQ "=="                                           
 OP_DIFF "<>"                                        
@@ -100,55 +99,68 @@ INTEGER_ERROR {INTEGER}{ALPHA}+({INTEGER}|{ALPHA})*
 DECIMAL_ERROR {INTEGER_ERROR}"\."{INTEGER}|{INTEGER}"\."{INTEGER_ERROR}|{INTEGER_ERROR}"\."{INTEGER_ERROR}
 
 %%
-
 {TABLE}       { return TABLE; }
 {CREATE}      { return CREATE; }
 {DROP}        { return DROP; }
+
 {SELECT}      { return SELECT; }
 {WHERE}       { return WHERE; }
 {BY}          { return BY; }
 {GROUP}       { return GROUP; }
 {ORDER}       { return ORDER; }
+
 {INSERT}      { return INSERT; }
 {DELETE}      { return DELETE; }
 {UPDATE}      { return UPDATE; }
+
 {MAX}         { return MAX; }
 {MIN}         { return MIN; }
 {AVG}         { return AVG; }
 {COUNT}       { return COUNT; }
+
 {INTO}        { return INTO; }
 {VALUES}      { return VALUES; }
 {FROM}        { return FROM; }
 {SET}         { return SET; }
 {ASC}         { return ASC; }
 {DESC}        { return DESC; }
+
 {TYPE_INTEGER} { return TYPE_INTEGER; }
 {TYPE_DECIMAL} { return TYPE_DECIMAL; }
 {TYPE_VARCHAR} { return TYPE_VARCHAR; }
+
+{OP_ADD} { return OP_ADD; }
+{OP_SUB} { return OP_SUB; }
+{OP_DIV} { return OP_DIV; }
+{OP_EQ} { return OP_EQ; }
+{OP_DIFF} { return OP_DIFF; }
+{OP_GT} { return OP_GT; }
+{OP_LT} { return OP_LT; }
+{OP_GE} { return OP_GE; }
+{OP_LE} { return OP_LE; }
+{OP_AND} { return OP_AND; }
+{OP_OR} { return OP_OR; }
+
 {PARAOPEN}    { return PARAOPEN; }
 {PARACLOSE}   { return PARACLOSE; }
 {COMMAN}      { return COMMAN; }
 {SEMICOLON}   { return SEMICOLON; }
 {ASIG}        { return ASIG; }
+
 {AST}         { return AST; }
+
+{DIGIT}          { return DIGIT; }
+{ACCENT}          { return ACCENT; }
+{ALPHA}          { return ALPHA; }
 {ID}          { return ID; }
+
 {INTEGER}     { return INTEGER; }
 {DECIMAL}     { return DECIMAL; }
+
 {STRING}      { return STRING; }
+
 {INTEGER_ERROR} { return ERROR; }
 {DECIMAL_ERROR} { return ERROR; }
-
-"+" { return OP_ADD; }
-"-" { return OP_SUB; }
-"/" { return OP_DIV; }
-"==" { return OP_EQ; }
-"<>" { return OP_DIFF; }
-">" { return OP_GT; }
-"<" { return OP_LT; }
-">=" { return OP_GE; }
-"<=" { return OP_LE; }
-{OP_AND} { return OP_AND; }
-{OP_OR} { return OP_OR; }
 
 \n						{linea++;}
 
