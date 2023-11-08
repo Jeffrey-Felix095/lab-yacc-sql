@@ -1088,12 +1088,12 @@ YY_RULE_SETUP
 case 49:
 YY_RULE_SETUP
 #line 162 "LAB01.l"
-{ return ERROR; }
+{  fprintf(stderr, "Unexpected character '%c' at line %d\n", *yytext, linea); return ERROR;}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
 #line 163 "LAB01.l"
-{ return ERROR; }
+{ fprintf(stderr, "Unexpected character '%c' at line %d\n", *yytext, linea); return ERROR;}
 	YY_BREAK
 case 51:
 /* rule 51 can match eol */
