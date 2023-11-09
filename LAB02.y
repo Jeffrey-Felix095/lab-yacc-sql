@@ -55,6 +55,7 @@ statements: statement SEMICOLON
           | error SEMICOLON
           | statements statement SEMICOLON
           | statements error SEMICOLON
+          | ERROR
           ;
 
 statement: create_table
@@ -125,6 +126,9 @@ select: SELECT select_item FROM ID where_clause group_by order_by
 select_item: AST
            | identifiers
            | funtions
+           | select_item COMMAN identifiers
+           | select_item COMMAN AST
+           | select_item COMMAN funtions
            ;
 
 funtions: funtion_structure

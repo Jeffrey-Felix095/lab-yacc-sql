@@ -367,7 +367,7 @@ struct yy_trans_info
 static const flex_int16_t yy_accept[150] =
     {   0,
         0,    0,   53,   52,   51,   52,   52,   36,   37,   41,
-       25,   38,   26,   52,   27,   42,   39,   31,   40,   30,
+       25,   38,   26,   50,   27,   42,   39,   31,   40,   30,
        44,   44,   44,   44,   44,   44,   44,   44,   44,   44,
        44,   44,   44,   44,   44,   43,    0,   48,    0,   47,
        47,   46,   49,   33,   29,   28,   32,   45,   45,   45,
@@ -375,13 +375,13 @@ static const flex_int16_t yy_accept[150] =
        45,   35,   45,   45,   45,   45,   45,   47,    0,   49,
        49,   34,   20,   14,   45,   45,   45,   45,   45,   45,
        45,   45,   45,   45,   12,   13,   45,   45,   19,   45,
-       45,   45,   45,   45,   50,   50,   49,   45,   45,   45,
+       45,   45,   45,   45,   49,   49,   49,   45,   45,   45,
 
        45,   21,    3,   18,   45,   45,   45,   16,   45,   45,
-       45,   45,   45,   45,   45,   50,   50,   50,   15,   45,
+       45,   45,   45,   45,   45,   49,   49,   49,   15,   45,
        45,   45,    7,   45,   45,    8,   45,    1,   45,   45,
-       45,    5,   50,   50,   50,    2,   45,   10,    9,   45,
-        4,   11,   17,   45,   50,   23,   22,   24,    0
+       45,    5,   49,   49,   49,    2,   45,   10,    9,   45,
+        4,   11,   17,   45,   49,   23,   22,   24,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -1088,17 +1088,17 @@ YY_RULE_SETUP
 case 49:
 YY_RULE_SETUP
 #line 162 "LAB01.l"
-{  fprintf(stderr, "Unexpected character '%c' at line %d\n", *yytext, linea); return ERROR;}
+{fprintf(stderr, "Error lexico '%c' en la linea %d\n", *yytext, linea+1); return ERROR;}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 163 "LAB01.l"
-{ fprintf(stderr, "Unexpected character '%c' at line %d\n", *yytext, linea); return ERROR;}
+#line 164 "LAB01.l"
+{fprintf(stderr, "Error lexico '%c' en la linea %d\n", *yytext, linea+1); return ERROR;}
 	YY_BREAK
 case 51:
 /* rule 51 can match eol */
 YY_RULE_SETUP
-#line 165 "LAB01.l"
+#line 166 "LAB01.l"
 {linea++;}
 	YY_BREAK
 case 52:

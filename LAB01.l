@@ -159,9 +159,9 @@ DECIMAL_ERROR {INTEGER_ERROR}"\."{INTEGER}|{INTEGER}"\."{INTEGER_ERROR}|{INTEGER
 
 {STRING}      { return STRING; }
 
-{INTEGER_ERROR} {  fprintf(stderr, "Unexpected character '%c' at line %d\n", *yytext, linea); return ERROR;}
-{DECIMAL_ERROR} { fprintf(stderr, "Unexpected character '%c' at line %d\n", *yytext, linea); return ERROR;}
+{ERROR} {fprintf(stderr, "Error lexico '%c' en la linea %d\n", *yytext, linea+1); return ERROR;}
+
+"." {fprintf(stderr, "Error lexico '%c' en la linea %d\n", *yytext, linea+1); return ERROR;}
 
 \n						{linea++;}
-
 %%
