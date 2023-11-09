@@ -52,9 +52,9 @@ program: statements
        ;
 
 statements: statement SEMICOLON
-          | error SEMICOLON
+          | ERROR SEMICOLON
           | statements statement SEMICOLON
-          | statements error SEMICOLON
+          | statements ERROR SEMICOLON
           ;
 
 statement: create_table
@@ -69,16 +69,21 @@ create_table: CREATE TABLE ID PARAOPEN columns PARACLOSE
             ;
 
 columns: column
-        | columns COMMAN column
-        ;
+       | columns COMMAN column
+       ;
 
-column: ID type PARAOPEN TYPE_INTEGER PARACLOSE
+column: ID type limit
       ;
+
+limit:
+     | PARAOPEN INTEGER PARACLOSE
+     | PARAOPEN DIGIT PARACLOSE 
+     ;
 
 drop_table: DROP TABLE ID
           ;
 
-insert_into: INSERT INTO ID PARAOPEN values PARACLOSE
+insert_into: INSERT INTO ID VALUES PARAOPEN values PARACLOSE
            ;
 
 type: TYPE_DECIMAL
@@ -103,16 +108,20 @@ conditions: condition
           | conditions OP_OR condition
           ;
 
-condition: ID OP_EQ value
+condition: ID ASIG value
          ;
 
-update_set: UPDATE ID SET ID OP_EQ value WHERE conditions
+update_set: UPDATE ID SET ID ASIG value WHERE conditions
           ;
 
 select: SELECT select_list FROM ID where_clause group_by order_by
       ;
 
-select_list: AST
+select_list: select_item
+           | select_list COMMAN select_item
+           ;
+
+select_item: AST
            | identifiers
            | funtions
            ;
@@ -134,13 +143,16 @@ identifiers: ID
            | identifiers COMMAN ID
            ;
 
-where_clause: WHERE conditions
+where_clause:
+            | WHERE conditions
             ;
 
-group_by: GROUP BY ID
+group_by: 
+        |GROUP BY ID
          ;
 
-order_by: ORDER BY order_columns ordering
+order_by: 
+        |ORDER BY order_columns ordering
         ;
 
 order_columns: ID

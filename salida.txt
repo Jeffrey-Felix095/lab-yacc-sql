@@ -1,6 +1,4 @@
-   
-Error sintactico en la linea numero: 1       
-Error sintactico en la linea numero: 3     
-Error sintactico en la linea numero: 5                  . 
+  
+Error sintactico en la linea numero: 1
 Incorrecto 
-El archivo de entrada tiene 3 errores sintacticos. 
+El archivo de entrada tiene 1 errores sintacticos. 
