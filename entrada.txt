@@ -1,1 +1,4 @@
-SELECT nombre, MAX(salario) FROM Empleado;
+SELECT * FROM Empleado WHERE salario<20000jg0 ORDER BY nombre ASC .;
+SELECT * FRO Empleado WHERE salario<2000000 ORDER BY nombre ASC .;
+SELECT * FROM Empleado WHRE salario<2000000 ORDER BY nombre ASC .;
+SELECT * FROM Empleado WHERE salario<2000000 ORDER BY nombre ASC .;

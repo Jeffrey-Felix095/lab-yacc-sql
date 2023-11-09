@@ -52,9 +52,9 @@ program: statements
        ;
 
 statements: statement SEMICOLON
-          | ERROR SEMICOLON
+          | error SEMICOLON
           | statements statement SEMICOLON
-          | statements ERROR SEMICOLON
+          | statements error SEMICOLON
           ;
 
 statement: create_table
@@ -108,18 +108,19 @@ conditions: condition
           | conditions OP_OR condition
           ;
 
-condition: ID ASIG value
+condition: ID OP_EQ value
+         | ID OP_DIFF value
+         | ID OP_GT value
+         | ID OP_LT value
+         | ID OP_GE value
+         | ID OP_LE value
          ;
 
 update_set: UPDATE ID SET ID ASIG value WHERE conditions
           ;
 
-select: SELECT select_list FROM ID where_clause group_by order_by
+select: SELECT select_item FROM ID where_clause group_by order_by
       ;
-
-select_list: select_item
-           | select_list COMMAN select_item
-           ;
 
 select_item: AST
            | identifiers
@@ -167,7 +168,6 @@ ordering: ASC
 
 void yyerror(const char *s){
     fprintf(yyout, "\nError sintactico en la linea numero: %d", linea+1);
-    
     num_syntax_errors++;
 }
 
