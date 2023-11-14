@@ -1088,18 +1088,18 @@ YY_RULE_SETUP
 case 49:
 YY_RULE_SETUP
 #line 162 "LAB01.l"
-{fprintf(stderr, "Error lexico '%c' en la linea %d\n", *yytext, linea+1); return ERROR;}
+{return ERROR;}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
 #line 164 "LAB01.l"
-{fprintf(stderr, "Error lexico '%c' en la linea %d\n", *yytext, linea+1); return ERROR;}
+{return ERROR;}
 	YY_BREAK
 case 51:
 /* rule 51 can match eol */
 YY_RULE_SETUP
 #line 166 "LAB01.l"
-{linea++;}
+{linea++;}{ return NEWLINE; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP

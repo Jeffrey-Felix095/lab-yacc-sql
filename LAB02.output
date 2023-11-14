@@ -1,0 +1,978 @@
+Nonterminals useless in grammar
+
+    select
+    list
+    select_item
+    funtions
+    funtion_structure
+    funtion
+    identifiers
+    where_clause
+    group_by
+    order_by
+    order_columns
+    ordering
+
+
+Terminals unused in grammar
+
+    SELECT
+    BY
+    GROUP
+    ORDER
+    MAX
+    MIN
+    AVG
+    COUNT
+    ASC
+    DESC
+    OP_ADD
+    OP_SUB
+    OP_DIV
+    OP_EQ
+    AST
+    ACCENT
+    ALPHA
+
+
+Rules useless in grammar
+
+   41 statement: select
+
+   42 select: SELECT list FROM ID group_by order_by where_clause
+
+   43 list: list
+   44     | list COMMAN select_item
+
+   45 select_item: AST
+   46            | identifiers
+   47            | funtions
+
+   48 funtions: funtion_structure
+   49         | funtion_structure COMMAN funtions
+
+   50 funtion_structure: funtion PARAOPEN ID PARACLOSE
+
+   51 funtion: MAX
+   52        | MIN
+   53        | AVG
+   54        | COUNT
+
+   55 identifiers: ID
+   56            | identifiers COMMAN ID
+
+   57 where_clause: %empty
+   58             | WHERE conditions
+
+   59 group_by: %empty
+   60         | GROUP BY ID
+
+   61 order_by: %empty
+   62         | ORDER BY order_columns ordering
+
+   63 order_columns: ID
+   64              | order_columns COMMAN ID
+
+   65 ordering: %empty
+   66         | ASC
+   67         | DESC
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: statements
+
+    2 statements: statement SEMICOLON
+    3           | error SEMICOLON
+    4           | statements statement SEMICOLON
+    5           | statements error SEMICOLON
+    6           | ERROR
+
+    7 statement: create_table
+    8          | drop_table
+    9          | insert_into
+   10          | delete_from
+   11          | update_set
+   12          | conditions
+
+   13 create_table: CREATE TABLE ID PARAOPEN columns PARACLOSE
+
+   14 columns: column
+   15        | columns COMMAN column
+
+   16 column: ID type limit
+
+   17 limit: %empty
+   18      | PARAOPEN INTEGER PARACLOSE
+   19      | PARAOPEN DIGIT PARACLOSE
+
+   20 drop_table: DROP TABLE ID
+
+   21 insert_into: INSERT INTO ID VALUES PARAOPEN values PARACLOSE
+
+   22 type: TYPE_DECIMAL
+   23     | TYPE_INTEGER
+   24     | TYPE_VARCHAR
+
+   25 values: value
+   26       | values COMMAN value
+
+   27 value: INTEGER
+   28      | DECIMAL
+   29      | STRING
+
+   30 delete_from: DELETE FROM ID WHERE conditions
+
+   31 conditions: condition
+   32           | conditions OP_AND condition
+   33           | conditions OP_OR condition
+
+   34 condition: ID ASIG value
+   35          | ID OP_DIFF value
+   36          | ID OP_GT value
+   37          | ID OP_LT value
+   38          | ID OP_GE value
+   39          | ID OP_LE value
+
+   40 update_set: UPDATE ID SET ID ASIG value WHERE conditions
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256) 3 5
+    TABLE (258) 13 20
+    CREATE (259) 13
+    DROP (260) 20
+    SELECT (261)
+    WHERE (262) 30 40
+    BY (263)
+    GROUP (264)
+    ORDER (265)
+    INSERT (266) 21
+    DELETE (267) 30
+    UPDATE (268) 40
+    MAX (269)
+    MIN (270)
+    AVG (271)
+    COUNT (272)
+    INTO (273) 21
+    VALUES (274) 21
+    FROM (275) 30
+    SET (276) 40
+    ASC (277)
+    DESC (278)
+    TYPE_INTEGER (279) 23
+    TYPE_DECIMAL (280) 22
+    TYPE_VARCHAR (281) 24
+    OP_ADD (282)
+    OP_SUB (283)
+    OP_DIV (284)
+    OP_EQ (285)
+    OP_DIFF (286) 35
+    OP_GT (287) 36
+    OP_LT (288) 37
+    OP_GE (289) 38
+    OP_LE (290) 39
+    OP_AND (291) 32
+    OP_OR (292) 33
+    PARAOPEN (293) 13 18 19 21
+    PARACLOSE (294) 13 18 19 21
+    COMMAN (295) 15 26
+    SEMICOLON (296) 2 3 4 5
+    ASIG (297) 34 40
+    AST (298)
+    DIGIT (299) 19
+    ACCENT (300)
+    ALPHA (301)
+    ID (302) 13 16 20 21 30 34 35 36 37 38 39 40
+    INTEGER (303) 18 27
+    DECIMAL (304) 28
+    STRING (305) 29
+    ERROR (306) 6
+
+
+Nonterminals, with rules where they appear
+
+    $accept (52)
+        on left: 0
+    program (53)
+        on left: 1
+        on right: 0
+    statements (54)
+        on left: 2 3 4 5 6
+        on right: 1 4 5
+    statement (55)
+        on left: 7 8 9 10 11 12
+        on right: 2 4
+    create_table (56)
+        on left: 13
+        on right: 7
+    columns (57)
+        on left: 14 15
+        on right: 13 15
+    column (58)
+        on left: 16
+        on right: 14 15
+    limit (59)
+        on left: 17 18 19
+        on right: 16
+    drop_table (60)
+        on left: 20
+        on right: 8
+    insert_into (61)
+        on left: 21
+        on right: 9
+    type (62)
+        on left: 22 23 24
+        on right: 16
+    values (63)
+        on left: 25 26
+        on right: 21 26
+    value (64)
+        on left: 27 28 29
+        on right: 25 26 34 35 36 37 38 39 40
+    delete_from (65)
+        on left: 30
+        on right: 10
+    conditions (66)
+        on left: 31 32 33
+        on right: 12 30 32 33 40
+    condition (67)
+        on left: 34 35 36 37 38 39
+        on right: 31 32 33
+    update_set (68)
+        on left: 40
+        on right: 11
+
+
+State 0
+
+    0 $accept: . program $end
+
+    error   shift, and go to state 1
+    CREATE  shift, and go to state 2
+    DROP    shift, and go to state 3
+    INSERT  shift, and go to state 4
+    DELETE  shift, and go to state 5
+    UPDATE  shift, and go to state 6
+    ID      shift, and go to state 7
+    ERROR   shift, and go to state 8
+
+    program       go to state 9
+    statements    go to state 10
+    statement     go to state 11
+    create_table  go to state 12
+    drop_table    go to state 13
+    insert_into   go to state 14
+    delete_from   go to state 15
+    conditions    go to state 16
+    condition     go to state 17
+    update_set    go to state 18
+
+
+State 1
+
+    3 statements: error . SEMICOLON
+
+    SEMICOLON  shift, and go to state 19
+
+
+State 2
+
+   13 create_table: CREATE . TABLE ID PARAOPEN columns PARACLOSE
+
+    TABLE  shift, and go to state 20
+
+
+State 3
+
+   20 drop_table: DROP . TABLE ID
+
+    TABLE  shift, and go to state 21
+
+
+State 4
+
+   21 insert_into: INSERT . INTO ID VALUES PARAOPEN values PARACLOSE
+
+    INTO  shift, and go to state 22
+
+
+State 5
+
+   30 delete_from: DELETE . FROM ID WHERE conditions
+
+    FROM  shift, and go to state 23
+
+
+State 6
+
+   40 update_set: UPDATE . ID SET ID ASIG value WHERE conditions
+
+    ID  shift, and go to state 24
+
+
+State 7
+
+   34 condition: ID . ASIG value
+   35          | ID . OP_DIFF value
+   36          | ID . OP_GT value
+   37          | ID . OP_LT value
+   38          | ID . OP_GE value
+   39          | ID . OP_LE value
+
+    OP_DIFF  shift, and go to state 25
+    OP_GT    shift, and go to state 26
+    OP_LT    shift, and go to state 27
+    OP_GE    shift, and go to state 28
+    OP_LE    shift, and go to state 29
+    ASIG     shift, and go to state 30
+
+
+State 8
+
+    6 statements: ERROR .
+
+    $default  reduce using rule 6 (statements)
+
+
+State 9
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 31
+
+
+State 10
+
+    1 program: statements .
+    4 statements: statements . statement SEMICOLON
+    5           | statements . error SEMICOLON
+
+    error   shift, and go to state 32
+    CREATE  shift, and go to state 2
+    DROP    shift, and go to state 3
+    INSERT  shift, and go to state 4
+    DELETE  shift, and go to state 5
+    UPDATE  shift, and go to state 6
+    ID      shift, and go to state 7
+
+    $end  reduce using rule 1 (program)
+
+    statement     go to state 33
+    create_table  go to state 12
+    drop_table    go to state 13
+    insert_into   go to state 14
+    delete_from   go to state 15
+    conditions    go to state 16
+    condition     go to state 17
+    update_set    go to state 18
+
+
+State 11
+
+    2 statements: statement . SEMICOLON
+
+    SEMICOLON  shift, and go to state 34
+
+
+State 12
+
+    7 statement: create_table .
+
+    $default  reduce using rule 7 (statement)
+
+
+State 13
+
+    8 statement: drop_table .
+
+    $default  reduce using rule 8 (statement)
+
+
+State 14
+
+    9 statement: insert_into .
+
+    $default  reduce using rule 9 (statement)
+
+
+State 15
+
+   10 statement: delete_from .
+
+    $default  reduce using rule 10 (statement)
+
+
+State 16
+
+   12 statement: conditions .
+   32 conditions: conditions . OP_AND condition
+   33           | conditions . OP_OR condition
+
+    OP_AND  shift, and go to state 35
+    OP_OR   shift, and go to state 36
+
+    $default  reduce using rule 12 (statement)
+
+
+State 17
+
+   31 conditions: condition .
+
+    $default  reduce using rule 31 (conditions)
+
+
+State 18
+
+   11 statement: update_set .
+
+    $default  reduce using rule 11 (statement)
+
+
+State 19
+
+    3 statements: error SEMICOLON .
+
+    $default  reduce using rule 3 (statements)
+
+
+State 20
+
+   13 create_table: CREATE TABLE . ID PARAOPEN columns PARACLOSE
+
+    ID  shift, and go to state 37
+
+
+State 21
+
+   20 drop_table: DROP TABLE . ID
+
+    ID  shift, and go to state 38
+
+
+State 22
+
+   21 insert_into: INSERT INTO . ID VALUES PARAOPEN values PARACLOSE
+
+    ID  shift, and go to state 39
+
+
+State 23
+
+   30 delete_from: DELETE FROM . ID WHERE conditions
+
+    ID  shift, and go to state 40
+
+
+State 24
+
+   40 update_set: UPDATE ID . SET ID ASIG value WHERE conditions
+
+    SET  shift, and go to state 41
+
+
+State 25
+
+   35 condition: ID OP_DIFF . value
+
+    INTEGER  shift, and go to state 42
+    DECIMAL  shift, and go to state 43
+    STRING   shift, and go to state 44
+
+    value  go to state 45
+
+
+State 26
+
+   36 condition: ID OP_GT . value
+
+    INTEGER  shift, and go to state 42
+    DECIMAL  shift, and go to state 43
+    STRING   shift, and go to state 44
+
+    value  go to state 46
+
+
+State 27
+
+   37 condition: ID OP_LT . value
+
+    INTEGER  shift, and go to state 42
+    DECIMAL  shift, and go to state 43
+    STRING   shift, and go to state 44
+
+    value  go to state 47
+
+
+State 28
+
+   38 condition: ID OP_GE . value
+
+    INTEGER  shift, and go to state 42
+    DECIMAL  shift, and go to state 43
+    STRING   shift, and go to state 44
+
+    value  go to state 48
+
+
+State 29
+
+   39 condition: ID OP_LE . value
+
+    INTEGER  shift, and go to state 42
+    DECIMAL  shift, and go to state 43
+    STRING   shift, and go to state 44
+
+    value  go to state 49
+
+
+State 30
+
+   34 condition: ID ASIG . value
+
+    INTEGER  shift, and go to state 42
+    DECIMAL  shift, and go to state 43
+    STRING   shift, and go to state 44
+
+    value  go to state 50
+
+
+State 31
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+State 32
+
+    5 statements: statements error . SEMICOLON
+
+    SEMICOLON  shift, and go to state 51
+
+
+State 33
+
+    4 statements: statements statement . SEMICOLON
+
+    SEMICOLON  shift, and go to state 52
+
+
+State 34
+
+    2 statements: statement SEMICOLON .
+
+    $default  reduce using rule 2 (statements)
+
+
+State 35
+
+   32 conditions: conditions OP_AND . condition
+
+    ID  shift, and go to state 7
+
+    condition  go to state 53
+
+
+State 36
+
+   33 conditions: conditions OP_OR . condition
+
+    ID  shift, and go to state 7
+
+    condition  go to state 54
+
+
+State 37
+
+   13 create_table: CREATE TABLE ID . PARAOPEN columns PARACLOSE
+
+    PARAOPEN  shift, and go to state 55
+
+
+State 38
+
+   20 drop_table: DROP TABLE ID .
+
+    $default  reduce using rule 20 (drop_table)
+
+
+State 39
+
+   21 insert_into: INSERT INTO ID . VALUES PARAOPEN values PARACLOSE
+
+    VALUES  shift, and go to state 56
+
+
+State 40
+
+   30 delete_from: DELETE FROM ID . WHERE conditions
+
+    WHERE  shift, and go to state 57
+
+
+State 41
+
+   40 update_set: UPDATE ID SET . ID ASIG value WHERE conditions
+
+    ID  shift, and go to state 58
+
+
+State 42
+
+   27 value: INTEGER .
+
+    $default  reduce using rule 27 (value)
+
+
+State 43
+
+   28 value: DECIMAL .
+
+    $default  reduce using rule 28 (value)
+
+
+State 44
+
+   29 value: STRING .
+
+    $default  reduce using rule 29 (value)
+
+
+State 45
+
+   35 condition: ID OP_DIFF value .
+
+    $default  reduce using rule 35 (condition)
+
+
+State 46
+
+   36 condition: ID OP_GT value .
+
+    $default  reduce using rule 36 (condition)
+
+
+State 47
+
+   37 condition: ID OP_LT value .
+
+    $default  reduce using rule 37 (condition)
+
+
+State 48
+
+   38 condition: ID OP_GE value .
+
+    $default  reduce using rule 38 (condition)
+
+
+State 49
+
+   39 condition: ID OP_LE value .
+
+    $default  reduce using rule 39 (condition)
+
+
+State 50
+
+   34 condition: ID ASIG value .
+
+    $default  reduce using rule 34 (condition)
+
+
+State 51
+
+    5 statements: statements error SEMICOLON .
+
+    $default  reduce using rule 5 (statements)
+
+
+State 52
+
+    4 statements: statements statement SEMICOLON .
+
+    $default  reduce using rule 4 (statements)
+
+
+State 53
+
+   32 conditions: conditions OP_AND condition .
+
+    $default  reduce using rule 32 (conditions)
+
+
+State 54
+
+   33 conditions: conditions OP_OR condition .
+
+    $default  reduce using rule 33 (conditions)
+
+
+State 55
+
+   13 create_table: CREATE TABLE ID PARAOPEN . columns PARACLOSE
+
+    ID  shift, and go to state 59
+
+    columns  go to state 60
+    column   go to state 61
+
+
+State 56
+
+   21 insert_into: INSERT INTO ID VALUES . PARAOPEN values PARACLOSE
+
+    PARAOPEN  shift, and go to state 62
+
+
+State 57
+
+   30 delete_from: DELETE FROM ID WHERE . conditions
+
+    ID  shift, and go to state 7
+
+    conditions  go to state 63
+    condition   go to state 17
+
+
+State 58
+
+   40 update_set: UPDATE ID SET ID . ASIG value WHERE conditions
+
+    ASIG  shift, and go to state 64
+
+
+State 59
+
+   16 column: ID . type limit
+
+    TYPE_INTEGER  shift, and go to state 65
+    TYPE_DECIMAL  shift, and go to state 66
+    TYPE_VARCHAR  shift, and go to state 67
+
+    type  go to state 68
+
+
+State 60
+
+   13 create_table: CREATE TABLE ID PARAOPEN columns . PARACLOSE
+   15 columns: columns . COMMAN column
+
+    PARACLOSE  shift, and go to state 69
+    COMMAN     shift, and go to state 70
+
+
+State 61
+
+   14 columns: column .
+
+    $default  reduce using rule 14 (columns)
+
+
+State 62
+
+   21 insert_into: INSERT INTO ID VALUES PARAOPEN . values PARACLOSE
+
+    INTEGER  shift, and go to state 42
+    DECIMAL  shift, and go to state 43
+    STRING   shift, and go to state 44
+
+    values  go to state 71
+    value   go to state 72
+
+
+State 63
+
+   30 delete_from: DELETE FROM ID WHERE conditions .
+   32 conditions: conditions . OP_AND condition
+   33           | conditions . OP_OR condition
+
+    OP_AND  shift, and go to state 35
+    OP_OR   shift, and go to state 36
+
+    $default  reduce using rule 30 (delete_from)
+
+
+State 64
+
+   40 update_set: UPDATE ID SET ID ASIG . value WHERE conditions
+
+    INTEGER  shift, and go to state 42
+    DECIMAL  shift, and go to state 43
+    STRING   shift, and go to state 44
+
+    value  go to state 73
+
+
+State 65
+
+   23 type: TYPE_INTEGER .
+
+    $default  reduce using rule 23 (type)
+
+
+State 66
+
+   22 type: TYPE_DECIMAL .
+
+    $default  reduce using rule 22 (type)
+
+
+State 67
+
+   24 type: TYPE_VARCHAR .
+
+    $default  reduce using rule 24 (type)
+
+
+State 68
+
+   16 column: ID type . limit
+
+    PARAOPEN  shift, and go to state 74
+
+    $default  reduce using rule 17 (limit)
+
+    limit  go to state 75
+
+
+State 69
+
+   13 create_table: CREATE TABLE ID PARAOPEN columns PARACLOSE .
+
+    $default  reduce using rule 13 (create_table)
+
+
+State 70
+
+   15 columns: columns COMMAN . column
+
+    ID  shift, and go to state 59
+
+    column  go to state 76
+
+
+State 71
+
+   21 insert_into: INSERT INTO ID VALUES PARAOPEN values . PARACLOSE
+   26 values: values . COMMAN value
+
+    PARACLOSE  shift, and go to state 77
+    COMMAN     shift, and go to state 78
+
+
+State 72
+
+   25 values: value .
+
+    $default  reduce using rule 25 (values)
+
+
+State 73
+
+   40 update_set: UPDATE ID SET ID ASIG value . WHERE conditions
+
+    WHERE  shift, and go to state 79
+
+
+State 74
+
+   18 limit: PARAOPEN . INTEGER PARACLOSE
+   19      | PARAOPEN . DIGIT PARACLOSE
+
+    DIGIT    shift, and go to state 80
+    INTEGER  shift, and go to state 81
+
+
+State 75
+
+   16 column: ID type limit .
+
+    $default  reduce using rule 16 (column)
+
+
+State 76
+
+   15 columns: columns COMMAN column .
+
+    $default  reduce using rule 15 (columns)
+
+
+State 77
+
+   21 insert_into: INSERT INTO ID VALUES PARAOPEN values PARACLOSE .
+
+    $default  reduce using rule 21 (insert_into)
+
+
+State 78
+
+   26 values: values COMMAN . value
+
+    INTEGER  shift, and go to state 42
+    DECIMAL  shift, and go to state 43
+    STRING   shift, and go to state 44
+
+    value  go to state 82
+
+
+State 79
+
+   40 update_set: UPDATE ID SET ID ASIG value WHERE . conditions
+
+    ID  shift, and go to state 7
+
+    conditions  go to state 83
+    condition   go to state 17
+
+
+State 80
+
+   19 limit: PARAOPEN DIGIT . PARACLOSE
+
+    PARACLOSE  shift, and go to state 84
+
+
+State 81
+
+   18 limit: PARAOPEN INTEGER . PARACLOSE
+
+    PARACLOSE  shift, and go to state 85
+
+
+State 82
+
+   26 values: values COMMAN value .
+
+    $default  reduce using rule 26 (values)
+
+
+State 83
+
+   32 conditions: conditions . OP_AND condition
+   33           | conditions . OP_OR condition
+   40 update_set: UPDATE ID SET ID ASIG value WHERE conditions .
+
+    OP_AND  shift, and go to state 35
+    OP_OR   shift, and go to state 36
+
+    $default  reduce using rule 40 (update_set)
+
+
+State 84
+
+   19 limit: PARAOPEN DIGIT PARACLOSE .
+
+    $default  reduce using rule 19 (limit)
+
+
+State 85
+
+   18 limit: PARAOPEN INTEGER PARACLOSE .
+
+    $default  reduce using rule 18 (limit)

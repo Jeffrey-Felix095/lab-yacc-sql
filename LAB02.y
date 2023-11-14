@@ -1,8 +1,7 @@
 %{
 #include <stdio.h>
-#include <stdio.h>
 #include <stdlib.h>
-#include "LAB02.tab.h"
+
 
 extern int yylex();
 extern FILE * yyin;
@@ -41,7 +40,7 @@ void yyerror(const char *s);
 
 %token STRING
 
-%token ERROR
+%token ERROR NEWLINE
 
 
 %start program
@@ -51,19 +50,19 @@ void yyerror(const char *s);
 program: statements
        ;
 
-statements: statement SEMICOLON
-          | error SEMICOLON
-          | statements statement SEMICOLON
-          | statements error SEMICOLON
-          | ERROR
+statements: statement
+          | statements statement
+          | statement NEWLINE
+          | statements statement NEWLINE
           ;
 
-statement: create_table
-         | drop_table
-         | insert_into
-         | delete_from
-         | update_set
-         | select
+statement: create_table SEMICOLON
+         | drop_table SEMICOLON
+         | insert_into SEMICOLON
+         | delete_from SEMICOLON
+         | update_set SEMICOLON
+         | select SEMICOLON
+         | error SEMICOLON
          ;
 
 create_table: CREATE TABLE ID PARAOPEN columns PARACLOSE
@@ -109,7 +108,7 @@ conditions: condition
           | conditions OP_OR condition
           ;
 
-condition: ID OP_EQ value
+condition: ID ASIG value
          | ID OP_DIFF value
          | ID OP_GT value
          | ID OP_LT value
@@ -120,15 +119,14 @@ condition: ID OP_EQ value
 update_set: UPDATE ID SET ID ASIG value WHERE conditions
           ;
 
-select: SELECT select_item FROM ID where_clause group_by order_by
+select: SELECT select_item FROM ID group_by order_by where_clause
+      | SELECT identifiers COMMAN funtions FROM ID group_by order_by where_clause
+      | SELECT AST COMMAN identifiers COMMAN funtions FROM ID group_by order_by where_clause
       ;
 
 select_item: AST
            | identifiers
            | funtions
-           | select_item COMMAN identifiers
-           | select_item COMMAN AST
-           | select_item COMMAN funtions
            ;
 
 funtions: funtion_structure
@@ -164,7 +162,8 @@ order_columns: ID
              | order_columns COMMAN ID
              ;
 
-ordering: ASC
+ordering:
+        | ASC
         | DESC
         ;
 

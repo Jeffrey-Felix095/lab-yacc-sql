@@ -97,7 +97,8 @@ extern int yydebug;
     INTEGER = 303,
     DECIMAL = 304,
     STRING = 305,
-    ERROR = 306
+    ERROR = 306,
+    NEWLINE = 307
   };
 #endif
 

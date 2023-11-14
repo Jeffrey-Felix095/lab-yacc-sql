@@ -159,9 +159,9 @@ DECIMAL_ERROR {INTEGER_ERROR}"\."{INTEGER}|{INTEGER}"\."{INTEGER_ERROR}|{INTEGER
 
 {STRING}      { return STRING; }
 
-{ERROR} {fprintf(stderr, "Error lexico '%c' en la linea %d\n", *yytext, linea+1); return ERROR;}
+{ERROR} {return ERROR;}
 
-"." {fprintf(stderr, "Error lexico '%c' en la linea %d\n", *yytext, linea+1); return ERROR;}
+"."  {return ERROR;}
 
-\n						{linea++;}
+\n						{linea++;}{ return NEWLINE; }
 %%
