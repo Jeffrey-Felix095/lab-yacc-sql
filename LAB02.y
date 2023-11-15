@@ -50,19 +50,17 @@ void yyerror(const char *s);
 program: statements
        ;
 
-statements: statement
-          | statements statement
-          | statement NEWLINE
-          | statements statement NEWLINE
+statements: statement 
+          | statements statement 
           ;
 
-statement: create_table SEMICOLON
-         | drop_table SEMICOLON
-         | insert_into SEMICOLON
-         | delete_from SEMICOLON
-         | update_set SEMICOLON
-         | select SEMICOLON
-         | error SEMICOLON
+statement: create_table SEMICOLON {linea++;}
+         | drop_table SEMICOLON {linea++;}
+         | insert_into SEMICOLON {linea++;}
+         | delete_from SEMICOLON {linea++;}
+         | update_set SEMICOLON {linea++;}
+         | select SEMICOLON {linea++;}
+         | error SEMICOLON {linea++;} 
          ;
 
 create_table: CREATE TABLE ID PARAOPEN columns PARACLOSE
@@ -169,7 +167,8 @@ ordering:
 %%
 
 void yyerror(const char *s){
-    fprintf(yyout, "\nError sintactico en la linea numero: %d", linea+1);
+    fprintf(yyout, "\nError sintactico en la linea numero: %d", linea+1); 
+    
     num_syntax_errors++;
 }
 
