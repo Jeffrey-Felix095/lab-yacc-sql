@@ -114,9 +114,11 @@ condition: ID ASIG value
          | ID OP_LT value
          | ID OP_GE value
          | ID OP_LE value
+         | ID OP_EQ value
          ;
 
 update_set: UPDATE ID SET ID ASIG value WHERE conditions
+          | UPDATE ID SET ID OP_EQ value WHERE conditions
           ;
 
 select: SELECT select_list FROM ID group_by order_by where_clause

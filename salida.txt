@@ -1,1 +1,6 @@
-      Correcto
+           
+Error sintactico en la linea numero: 2 
+Error sintactico en la linea numero: 3      
+Error sintactico en la linea numero: 5                
+Incorrecto 
+El archivo de entrada tiene 3 errores sintacticos. 

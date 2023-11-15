@@ -144,7 +144,7 @@ DECIMAL_ERROR {INTEGER_ERROR}"\."{INTEGER}|{INTEGER}"\."{INTEGER_ERROR}|{INTEGER
 {PARAOPEN}    { return PARAOPEN; }
 {PARACLOSE}   { return PARACLOSE; }
 {COMMAN}      { return COMMAN; }
-{SEMICOLON}   { yylineno++; return SEMICOLON; }
+{SEMICOLON}   { linea++; return SEMICOLON; }
 {ASIG}        { return ASIG; }
 
 {AST}         { return AST; }
@@ -163,5 +163,5 @@ DECIMAL_ERROR {INTEGER_ERROR}"\."{INTEGER}|{INTEGER}"\."{INTEGER_ERROR}|{INTEGER
 
 "."  {return ERROR;}
 
-\n						{linea++;}{ return NEWLINE; }
+\n						{ return NEWLINE; }
 %%

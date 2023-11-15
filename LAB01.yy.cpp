@@ -1037,7 +1037,7 @@ YY_RULE_SETUP
 case 39:
 YY_RULE_SETUP
 #line 147 "LAB01.l"
-{ yylineno++; return SEMICOLON; }
+{ linea++; return SEMICOLON; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
@@ -1099,7 +1099,7 @@ case 51:
 /* rule 51 can match eol */
 YY_RULE_SETUP
 #line 166 "LAB01.l"
-{linea++;}{ return NEWLINE; }
+{ return NEWLINE; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
