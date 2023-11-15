@@ -75,7 +75,7 @@ OP_OR [oO][rR]
 PARAOPEN "("                                     
 PARACLOSE ")"                                  
 COMMAN ","                                            
-SEMICOLON ";"                                          
+SEMICOLON ";"                                           
 ASIG "="                                              
 
 /* Caracteres especiales: asterisco (*) */
@@ -144,7 +144,7 @@ DECIMAL_ERROR {INTEGER_ERROR}"\."{INTEGER}|{INTEGER}"\."{INTEGER_ERROR}|{INTEGER
 {PARAOPEN}    { return PARAOPEN; }
 {PARACLOSE}   { return PARACLOSE; }
 {COMMAN}      { return COMMAN; }
-{SEMICOLON}   { return SEMICOLON; }
+{SEMICOLON}   { yylineno++; return SEMICOLON; }
 {ASIG}        { return ASIG; }
 
 {AST}         { return AST; }

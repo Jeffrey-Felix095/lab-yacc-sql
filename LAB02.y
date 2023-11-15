@@ -119,20 +119,20 @@ condition: ID ASIG value
 update_set: UPDATE ID SET ID ASIG value WHERE conditions
           ;
 
-select: SELECT select_item FROM ID group_by order_by where_clause
-      | SELECT identifiers COMMAN funtions FROM ID group_by order_by where_clause
-      | SELECT AST COMMAN identifiers COMMAN funtions FROM ID group_by order_by where_clause
+select: SELECT select_list FROM ID group_by order_by where_clause
       ;
 
-select_item: AST
-           | identifiers
-           | funtions
+select_list: AST
+           | select_items
            ;
 
-funtions: funtion_structure
-        | funtion_structure COMMAN funtions
-        ;
+select_items: select_item
+            | select_items COMMAN select_item
+            ;
 
+select_item: ID
+           | funtion_structure
+           ;
 funtion_structure: funtion PARAOPEN ID PARACLOSE
                  ;
 
@@ -142,9 +142,6 @@ funtion: MAX
        | COUNT
        ;
 
-identifiers: ID
-           | identifiers COMMAN ID
-           ;
 
 where_clause:
             | WHERE conditions

@@ -1037,7 +1037,7 @@ YY_RULE_SETUP
 case 39:
 YY_RULE_SETUP
 #line 147 "LAB01.l"
-{ return SEMICOLON; }
+{ yylineno++; return SEMICOLON; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
